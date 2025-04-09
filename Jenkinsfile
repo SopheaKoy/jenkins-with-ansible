@@ -2,18 +2,13 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'node-18'
-  }
-  
-  // Add trigger for GitHub push events
-  triggers {
-    githubPush()
+    nodejs 'NodeJS 18'  // Optional, if using NodeJS plugin
   }
 
   stages {
-    stage('Checkout') {
+    stage('Clone Repository') {
       steps {
-        git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
+        git 'https://github.com/your-user/your-nextjs-repo.git'
       }
     }
 
@@ -23,48 +18,22 @@ pipeline {
       }
     }
 
-    stage('Test') {
-      steps {
-        // Add tests if your project has them
-        sh 'npm test || echo "No tests found, continuing"'
-      }
-    }
-
-    stage('Build App') {
+    stage('Build') {
       steps {
         sh 'npm run build'
       }
     }
 
-    stage('Deploy & Run') {
+    stage('Export (Optional for Static)') {
       steps {
-        // // Kill any existing process on port 3000
-        // sh 'lsof -ti:3000 | xargs kill -9 || true'
-        
-        // Start the application with proper process management
-        sh '''
-          nohup npm run start > app.log 2>&1 &
-          echo $! > .pid
-          sleep 5 # Give the app time to start
-        '''
-        
-        // Verify the app is running
-        sh 'curl -s http://localhost:3000 || (echo "App failed to start"; exit 1)'
-        
-        echo 'App successfully deployed and running on http://localhost:3000'
+        sh 'npm run export'
       }
     }
-  }
 
-  post {
-    success {
-      echo '✅ Build and deployment successful!'
-    }
-    failure {
-      echo '❌ Build or deployment failed!'
-    }
-    always {
-      echo 'Pipeline finished!'
+    stage('Test (Optional)') {
+      steps {
+        sh 'npm test'
+      }
     }
   }
 }
