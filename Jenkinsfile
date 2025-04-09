@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Clone Repository') {
       steps {
-        git 'https://github.com/your-user/your-nextjs-repo.git'
+        git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
       }
     }
 
