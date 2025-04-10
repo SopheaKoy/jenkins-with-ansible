@@ -23,19 +23,6 @@ pipeline {
         sh 'npm run build'
       }
     }
-    
-    stage('Deploy Locally') {
-      steps {
-        // Kill any existing process using port 3000
-        sh 'lsof -ti:3000 | xargs kill -9 || true'
-        
-        // Start the application in the background with nohup
-        sh 'nohup npm run start > app.log 2>&1 &'
-        
-        // Let's verify it's running
-        sh 'sleep 5 && lsof -i:3000 || echo "Warning: Process not detected on port 3000"'
-      }
-    }
   }
   // TODO: notify
   post {
