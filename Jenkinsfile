@@ -1,10 +1,9 @@
 pipeline {
-  agent any
-  
-  // Temporarily remove the tools section
-  // tools {
-  //   nodejs 'NodeJS 20'
-  // }
+  agent {
+    docker {
+      image 'node:20'
+    }
+  }
 
   stages {
     stage('Clone Repository') {
@@ -15,7 +14,6 @@ pipeline {
 
     stage('Install Dependencies') {
       steps {
-        // Use system npm if available
         sh 'npm install'
       }
     }
@@ -39,7 +37,7 @@ pipeline {
       }
     }
   }
-  // TODO: notify
+  
   post {
     success {
       echo 'Application should now be running at http://localhost:3000'
