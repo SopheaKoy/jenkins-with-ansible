@@ -6,11 +6,11 @@ pipeline {
   }
 
   stages {
-    stage('Clone Repository') {
-      steps {
-        git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
-      }
-    }
+    // stage('Clone Repository') {
+    //   steps {
+    //     git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
+    //   }
+    // }
 
     stage('Install Dependencies') {
       steps {
