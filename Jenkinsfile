@@ -1,4 +1,4 @@
-\pipeline {
+pipeline {
   agent any
   
   // Temporarily remove the tools section
