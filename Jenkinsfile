@@ -2,15 +2,15 @@ pipeline {
   agent any
 
   tools {
-    nodejs 'NodeJS 20'  // Optional, if using NodeJS plugin
+    nodejs 'NodeJS 20'
   }
 
   stages {
-    // stage('Clone Repository') {
-    //   steps {
-    //     git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
-    //   }
-    // }
+    stage('Clone Repository') {
+      steps {
+        checkout scm
+      }
+    }
 
     stage('Install Dependencies') {
       steps {
@@ -23,10 +23,24 @@ pipeline {
         sh 'npm run build'
       }
     }
-    stage('Run Production') {
+    
+    stage('Deploy Locally') {
       steps {
-        sh 'npm run start'
+        // Kill any existing process using port 3000
+        sh 'lsof -ti:3000 | xargs kill -9 || true'
+        
+        // Start the application in the background with nohup
+        sh 'nohup npm run start > app.log 2>&1 &'
+        
+        // Let's verify it's running
+        sh 'sleep 5 && lsof -i:3000 || echo "Warning: Process not detected on port 3000"'
       }
+    }
+  }
+  
+  post {
+    success {
+      echo 'Application should now be running at http://localhost:3000'
     }
   }
 }
