@@ -23,5 +23,10 @@ pipeline {
         sh 'npm run build'
       }
     }
+    stage('Run Production') {
+      steps {
+        sh 'npm run start'
+      }
+    }
   }
 }
