@@ -11,13 +11,11 @@ pipeline {
         git 'https://github.com/SopheaKoy/jenkins-with-ansible.git'
       }
     }
-
     stage('Install Dependencies') {
       steps {
         sh 'npm install'
       }
     }
-
     stage('Build') {
       steps {
         sh 'npm run build'
