@@ -39,7 +39,7 @@
       }
     }
   }
-  
+  // TODO: notify
   post {
     success {
       echo 'Application should now be running at http://localhost:3000'
